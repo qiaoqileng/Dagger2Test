@@ -1,5 +1,6 @@
 package com.qql.dagger.recommend.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qql.dagger.recommend.R;
+import com.qql.dagger.recommend.activity.DictManagerActivity;
+import com.qql.dagger.recommend.activity.JoinUsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +34,6 @@ public class MyFragment extends Fragment {
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.login)
     ImageView imageView;
-    @BindView(R.id.lager_text)
-    TextView textView;
     private View view;
 
     @Override
@@ -64,10 +65,15 @@ public class MyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @OnClick(R.id.login)
+    @OnClick({R.id.login,R.id.join_in})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
+                // TODO: 2017/12/15 登陆
+                break;
+            case R.id.join_in:
+                //  2017/12/15 申请入驻
+                startActivity(new Intent(getActivity(),JoinUsActivity.class));
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.qql.dagger.recommend.fragment;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -63,23 +64,6 @@ public class BookSelfFragment extends BaseFragment<BookSelfPresenter> implements
 //        draggableGridView.setAdapter(adapter);
 //        setListeners();
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        // we use this local variable to be sure collection is not null inside the runnable
-        final BookCollectionShadow collection = new BookCollectionShadow();
-        myCollection = collection;
-        collection.bindToService(getActivity(), new Runnable() {
-            @Override
-            public void run() {
-                Map<String,String> param = new HashMap<>();
-                param.put(Constants.USER_ID,"qql");
-                if (mPresenter!=null){
-                    mPresenter.findBookSelfList(myCollection,param);
-                }
-            }
-        });
-    }
 
     @Override
     public void onDestroy() {
@@ -135,7 +119,9 @@ public class BookSelfFragment extends BaseFragment<BookSelfPresenter> implements
 
     @Override
     public void onPause() {
-        mRecyclerViewDragDropManager.cancelDrag();
+        if (mRecyclerViewDragDropManager!=null){
+            mRecyclerViewDragDropManager.cancelDrag();
+        }
         super.onPause();
     }
 
@@ -188,7 +174,19 @@ public class BookSelfFragment extends BaseFragment<BookSelfPresenter> implements
     @Override
     protected void initEventAndData() {
 //        testBooks();
-
+        if (myCollection == null){
+            myCollection = new BookCollectionShadow();
+        }
+        myCollection.bindToService(getActivity(), new Runnable() {
+            @Override
+            public void run() {
+                Map<String,String> param = new HashMap<>();
+                param.put(Constants.USER_ID,"qql");
+                if (mPresenter!=null){
+                    mPresenter.findBookSelfList(myCollection,param);
+                }
+            }
+        });
     }
 
     private void testBooks(){
@@ -235,6 +233,14 @@ public class BookSelfFragment extends BaseFragment<BookSelfPresenter> implements
     }
 
     private void gotoLib() {
-        startActivity(new Intent(getActivity(), BookLib2Activity.class));
+        startActivityForResult(new Intent(getActivity(), BookLib2Activity.class),1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK){
+            initEventAndData();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

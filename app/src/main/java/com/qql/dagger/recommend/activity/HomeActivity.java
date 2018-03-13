@@ -3,12 +3,15 @@ package com.qql.dagger.recommend.activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.view.ViewGroup;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.qql.dagger.recommend.R;
+import com.qql.dagger.recommend.adapter.SimpleFragmentPageAdapter;
 import com.qql.dagger.recommend.base.BaseActivity;
 import com.qql.dagger.recommend.fragment.BookSelfFragment;
 import com.qql.dagger.recommend.fragment.HomeFragment;
@@ -20,6 +23,7 @@ import com.qql.dagger.recommend.presenter.contract.MainContract;
 import com.qql.dagger.recommend.utils.SnackbarUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -71,7 +75,8 @@ public class HomeActivity extends BaseActivity<MainPresenter> implements MainCon
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
-        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+//        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new SimpleFragmentPageAdapter(getSupportFragmentManager(),mFragments));
         commonTabLayout.setTabData(mTabEntities);
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -133,4 +138,5 @@ public class HomeActivity extends BaseActivity<MainPresenter> implements MainCon
             return mFragments.get(position);
         }
     }
+
 }

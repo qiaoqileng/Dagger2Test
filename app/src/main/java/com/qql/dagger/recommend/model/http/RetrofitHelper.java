@@ -132,6 +132,10 @@ public class RetrofitHelper {
         return myApiService.getVersionInfo();
     }
 
+    public Observable<GankHttpResponse<String>> joinUs(Map<String,String> params) {
+        return myApiService.joinUs(params);
+    }
+
     public Observable<GankHttpResponse<List<BannerBean>>> getBanners(){
         //TODO 这里后台写接口返回，先上测试数据
         ArrayList<BannerBean> banners = new ArrayList<BannerBean>();

@@ -4,8 +4,10 @@ import android.app.Activity;
 
 
 import com.qql.dagger.recommend.activity.BBListActivity;
+import com.qql.dagger.recommend.activity.DictManagerActivity;
 import com.qql.dagger.recommend.activity.HomeActivity;
 import com.qql.dagger.recommend.activity.ImageDetailActivity;
+import com.qql.dagger.recommend.activity.JoinUsActivity;
 import com.qql.dagger.recommend.activity.MainActivity;
 import com.qql.dagger.recommend.annotation.ActivityScope;
 import com.qql.dagger.recommend.module.ActivityModule;
@@ -30,4 +32,7 @@ public interface ActivityComponent {
 
     void inject(BBListActivity activity);
 
+    void inject(DictManagerActivity dictManagerActivity);
+
+    void inject(JoinUsActivity joinUsActivity);
 }

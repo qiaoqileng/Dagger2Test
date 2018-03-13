@@ -41,4 +41,8 @@ public class CommonUtils {
         return (returnValue + "KB");
     }
 
+    public static boolean emptyList(List list){
+        return list == null || list.size() == 0;
+    }
+
 }

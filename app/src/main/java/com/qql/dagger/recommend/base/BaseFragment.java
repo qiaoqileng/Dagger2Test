@@ -33,7 +33,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     private Unbinder mUnBinder;
     protected boolean isInited = false;
     private boolean mIsHidden = true;   // 用于记录Fragment show/hide 状态
-
+    private boolean initView;
     @Override
     public void onAttach(Context context) {
         mActivity = (Activity) context;
@@ -55,7 +55,14 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(getLayoutId(), null);
+        if (mView == null){
+            mView = inflater.inflate(getLayoutId(), null);
+        }
+        ViewGroup parent = (ViewGroup) mView.getParent();
+        if (parent != null)
+        {
+            parent.removeView(mView);
+        }
         initInject();
         return mView;
     }

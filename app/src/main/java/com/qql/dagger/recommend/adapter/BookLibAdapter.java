@@ -148,6 +148,8 @@ public abstract class BookLibAdapter extends RecyclerView.Adapter<BookLibAdapter
         }
         if (files != null){
             this.files = FileUtils.transformFile(files);
+        } else {
+            this.files = null;
         }
     }
 
@@ -211,6 +213,15 @@ public abstract class BookLibAdapter extends RecyclerView.Adapter<BookLibAdapter
             onItemClick(path);
         }catch (Exception e){
             LogUtil.printException(e);
+        }
+    }
+
+    public void selectAll(boolean flag){
+        if (!CommonUtils.emptyList(files)){
+            for (ZLPhysicalFile file:files){
+                file.setSelected(flag);
+            }
+            notifyDataSetChanged();
         }
     }
 

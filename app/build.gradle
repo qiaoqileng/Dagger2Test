@@ -1,65 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-
-android {
-    aaptOptions.cruncherEnabled = false
-    aaptOptions.useNewCruncher = false
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
-    defaultConfig {
-        applicationId "com.qql.dagger.recommend"
-        minSdkVersion 17
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    signingConfigs {
-        //gradle assembleRelease
-        release {
-            storeFile file("qql.jks")
-            storePassword "qqlkey"
-            keyAlias "key"
-            keyPassword "qqlkey"
-        }
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("qql.jks")
-            storePassword "qqlkey"
-            keyAlias "key"
-            keyPassword "qqlkey"
-        }
-
-        debug {
-            storeFile file("qql.jks")
-            storePassword "qqlkey"
-            keyAlias "key"
-            keyPassword "qqlkey"
-        }
-    }
-    buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-            manifestPlaceholders = [umeng_appkey: "583be16aaed179599700077d"]
-        }
-        release {
-            signingConfig signingConfigs.release
-            minifyEnabled false
-            manifestPlaceholders = [umeng_appkey: "583be16aaed179599700077d"]
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(include: ['*.jar'], dir: 'src/main/libs')
 
     //    compile project(':mylib')
 
@@ -140,11 +82,11 @@ dependencies {
     //    compile 'com.alibaba.sdk.android:alibc_trade_sdk:3.1.1.11@aar'
 //    compile project(path: ':grid-library')
 
-        compile ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.10.6@aar'){
+    compile ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.10.6@aar'){
 
-            transitive=true
+        transitive=true
 
-        }
+    }
     compile project(path: ':libs:fBReader')
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:design:25.0.0'
@@ -169,6 +111,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     apt 'com.google.dagger:dagger-compiler:2.8'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+//    compile 'org.webrtc:google-webrtc:1.0.+'
 }
 repositories {
     flatDir {
@@ -179,3 +122,50 @@ repositories {
         url 'http://repo.baichuan-android.taobao.com/content/groups/BaichuanRepositories/'
     }
 }
+android {
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        applicationId "com.qql.dagger.recommend"
+        minSdkVersion 17
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("qql.jks")
+            storePassword "qqlkey"
+            keyAlias "key"
+            keyPassword "qqlkey"
+        }
+
+        debug {
+            storeFile file("qql.jks")
+            storePassword "qqlkey"
+            keyAlias "key"
+            keyPassword "qqlkey"
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            manifestPlaceholders = [umeng_appkey: "583be16aaed179599700077d"]
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            manifestPlaceholders = [umeng_appkey: "583be16aaed179599700077d"]
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+

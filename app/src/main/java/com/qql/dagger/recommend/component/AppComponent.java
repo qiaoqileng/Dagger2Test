@@ -9,6 +9,7 @@ import com.qql.dagger.recommend.cache.DataCache;
 import com.qql.dagger.recommend.model.http.RetrofitHelper;
 import com.qql.dagger.recommend.module.AppModule;
 import com.qql.dagger.recommend.repository.UserRepository;
+import com.tencent.tauth.Tencent;
 
 import javax.inject.Singleton;
 
@@ -30,4 +31,6 @@ public interface AppComponent {
     GreenDaoManager provideGreenDaoManager();    //提供数据库帮助类
 
     DataCache provideDataCache();    //提供缓存类
+
+    Tencent provideThirdSDK(); // 第三方登陆
 }

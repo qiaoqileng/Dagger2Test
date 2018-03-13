@@ -1,6 +1,7 @@
 package com.qql.dagger.recommend.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -25,8 +26,8 @@ import com.qql.dagger.recommend.R;
 import com.qql.dagger.recommend.adapter.BookLibAdapter;
 import com.qql.dagger.recommend.adapter.BookLibHeadAdapter;
 import com.qql.dagger.recommend.base.UMActivity;
+import com.qql.dagger.recommend.utils.CommonUtils;
 import com.qql.dagger.recommend.utils.LogUtil;
-import com.qql.dagger.recommend.utils.ToastUtil;
 
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
@@ -39,6 +40,13 @@ import org.geometerplus.zlibrary.core.filesystem.ZLPhysicalFile;
 import java.util.List;
 
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class BookLib2Activity extends UMActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -252,10 +260,15 @@ public class BookLib2Activity extends UMActivity
         return true;
     }
 
+    private boolean selectAll = false;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {//todo 全选逻辑
+            selectAll = !selectAll;
+            libAdapter.selectAll(selectAll);
+            item.setTitle(selectAll?"全不选":"全选");
             return true;
         }
 
@@ -273,26 +286,36 @@ public class BookLib2Activity extends UMActivity
 
     private void exportBookSelf() {
         List<ZLPhysicalFile> files = libAdapter.getDataSource();
-        for (ZLPhysicalFile file:files){
-            try {
-                if (!file.isSelected()){
-                    continue;
-                }
-                Book currBook = myCollection.getBookByFile(file.getPath());
-                if (currBook == null){
-                    continue;
-                }
-                boolean flag = myCollection.saveBook(currBook);
-                if (flag){
-                    ToastUtil.show("导入成功");
-                    finish();
-                } else {
-                    ToastUtil.show("导入失败");
-                }
-            }catch (Exception e){
-                LogUtil.printException(e);
-            }
+        if (CommonUtils.emptyList(files)){
+            return;
         }
+        Subscription aa = Observable.from(files).filter(new Func1<ZLPhysicalFile, Boolean>() {
+            @Override
+            public Boolean call(ZLPhysicalFile zlPhysicalFile) {
+                LogUtil.d(zlPhysicalFile+"  select: "+ zlPhysicalFile.isSelected());
+                return zlPhysicalFile.isSelected()&&!zlPhysicalFile.isDirectory();
+            }
+        }).map(new Func1<ZLPhysicalFile, Boolean>() {
+            @Override
+            public Boolean call(ZLPhysicalFile zlPhysicalFile) {
+                Book currBook = myCollection.getBookByFile(zlPhysicalFile.getPath());
+                return currBook != null && myCollection.saveBook(currBook);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        setResult(Activity.RESULT_OK);
+                        finish();
+//                        if (aBoolean != null && aBoolean) {
+//                            ToastUtil.show("导入成功");
+//                            finish();
+//                        } else {
+//                            ToastUtil.show("导入失败");
+//                        }
+                    }
+                });
+        new CompositeSubscription().add(aa);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

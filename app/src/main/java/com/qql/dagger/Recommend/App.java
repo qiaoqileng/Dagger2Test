@@ -1,7 +1,6 @@
 package com.qql.dagger.recommend;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -41,7 +40,11 @@ public class App extends FBReaderApplication {
         initUMConfig();
         //数据库初始化
         initDB();
+        //第三方登陆初始化
+        initThirdSdk();
+    }
 
+    private void initThirdSdk() {
     }
 
     public void getScreenSize() {

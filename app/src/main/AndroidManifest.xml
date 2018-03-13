@@ -46,6 +46,8 @@
             android:name=".activity.BookLib2Activity"
             android:label="@string/title_activity_book_lib2"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.DictManagerActivity" />
+        <activity android:name=".activity.JoinUsActivity" />
     </application>
 
 </manifest>

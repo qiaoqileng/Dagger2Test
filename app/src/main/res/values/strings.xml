@@ -179,4 +179,16 @@
     </string>
     <string name="title_activity_book_lib2">导入书籍</string>
     <string name="action_settings">设置</string>
+    <string name="join_in">申请入驻</string>
+    <string name="hint_username">姓名</string>
+    <string name="hint_guanwang">官网地址</string>
+    <string name="hint_shop_brand">商店品牌</string>
+    <string name="hint_shop_url">官网地址</string>
+    <string name="hint_shop_taobao_url">淘宝店地址</string>
+    <string name="hint_shop_style">商店风格</string>
+    <string name="hint_shop_type">商品类别</string>
+    <string name="hint_create_time">请选择创建时间</string>
+    <string name="hint_QQ">QQ</string>
+    <string name="hint_email">email</string>
+    <string name="confirm">确定</string>
 </resources>

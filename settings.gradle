@@ -1,4 +1,4 @@
-include ':app', ':lib-greendao-generator'
+include ':app', ':lib-greendao-generator', ':dictp', ':lingo'
 //,":grid-library"
 include ':libs:code'
 include ':libs:fBReader'

@@ -8,11 +8,25 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.qql.dagger.recommend.activity.BBListActivity"
     tools:showIn="@layout/activity_scrolling">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
-    <com.qql.dagger.recommend.view.TextViewTypeFace
-        android:id="@+id/lager_text"
-        style="@style/text_category_title"
-        android:layout_margin="@dimen/text_larger"
-        android:text="@string/large_text" />
-
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/join_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_list_group_closed"
+            android:padding="@dimen/text_larger"
+            android:text="@string/join_in"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_little_big" />
+    <!--<com.qql.dagger.recommend.view.TextViewTypeFace-->
+        <!--android:id="@+id/lager_text"-->
+        <!--style="@style/text_category_title"-->
+        <!--android:layout_margin="@dimen/text_larger"-->
+        <!--android:text="@string/large_text" />-->
+    </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
